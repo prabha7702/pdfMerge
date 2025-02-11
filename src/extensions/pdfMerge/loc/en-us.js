@@ -12,7 +12,7 @@ define([], function () {
     "MergeandDeleteInfo": "Documents have been merged and deleted successfully.",
     "Merge": "Merge",
     "Cancel": "Cancel",
-    "LoadingInfo": "Please Wait...",
+    "LoadingInfo": "Merging files, Please Wait...",
     "ErrorInfo": "Something failed! Please try again after sometime."
   }
 });

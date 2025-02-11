@@ -30,12 +30,14 @@ const PDFMerge: React.FC<IPDFMergeProps> = (props: IPDFMergeProps) => {
     const sharepointService: SharepointService = props.context.serviceScope.consume(SharepointService.serviceKey);
     const pdfService: PDFService = props.context.serviceScope.consume(PDFService.serviceKey);
 
-    const handleFileNameChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const handleFileNameChange = (e: React.FormEvent<HTMLInputElement>): void => {
         setFilename(e.currentTarget.value)
     }
 
     const handleCheck = (e: React.FormEvent<HTMLInputElement>): void => {
-        e.currentTarget.name === "Delete" ? setIsDeleteSelected(!isDeleteSelected) : setIsPreviewSelected(!isPreviewSelected);
+        if (e.currentTarget.name === "Delete") {
+            setIsDeleteSelected(!isDeleteSelected)
+        } else { setIsPreviewSelected(!isPreviewSelected) }
     }
 
     const handleDrag = (result: DropResult): void => {
@@ -88,9 +90,9 @@ const PDFMerge: React.FC<IPDFMergeProps> = (props: IPDFMergeProps) => {
         setIsPanelOpen(false);
     }
 
-    const renderFooter = () => {
+    const renderFooter = (): React.ReactElement => {
         return (
-            <div className={`${styles.flex} ${styles.justifyCenter} ${styles.footer}`}>
+            <div className={`${styles.flexbox} ${styles.justifyCenter} ${styles.footer}`}>
                 <PrimaryButton onClick={() => handleMerge()}>{strings.Merge}</PrimaryButton>
                 <DefaultButton onClick={props.closePanel}>{strings.Cancel}</DefaultButton>
             </div>
@@ -100,14 +102,14 @@ const PDFMerge: React.FC<IPDFMergeProps> = (props: IPDFMergeProps) => {
     return (
         <>
             <Panel isOpen={isPanelOpen} type={PanelType.medium} onDismiss={props.closePanel} headerText={strings.PanelHeader} onRenderFooterContent={() => renderFooter()} isFooterAtBottom={true}>
-                {isLoading ? <div className={`${styles.flex} ${styles.alignCenter} ${styles.justifyCenter} ${styles.spinnerContainer}`}>
-                    <Spinner label={strings.LoadingInfo} ariaLive="assertive" labelPosition="bottom" styles={{ label: { marginLeft: 5, color: theme.palette.themePrimary }, circle: { borderTopColor: theme.palette.themePrimary, borderBottomColor: theme.palette.themeLight, borderLeftColor: theme.palette.themeLight, borderRightColor: theme.palette.themeLight } }} />
+                {isLoading ? <div className={`${styles.flexbox} ${styles.alignCenter} ${styles.justifyCenter} ${styles.spinnerContainer}`}>
+                    <Spinner label={strings.LoadingInfo} ariaLive="assertive" labelPosition="bottom" styles={{ label: { color: theme.palette.themePrimary }, circle: { borderTopColor: theme.palette.themePrimary, borderBottomColor: theme.palette.themeLight, borderLeftColor: theme.palette.themeLight, borderRightColor: theme.palette.themeLight } }} />
                 </div> :
-                    <div className={`${styles.flex} ${styles.panel}`}>
+                    <div className={`${styles.flexbox} ${styles.panel}`}>
                         <DragDropContext onDragEnd={handleDrag}>
                             <Droppable droppableId='Documents'>
                                 {
-                                    (provided) => <div className={`${styles.docContainer} ${styles.flex} ${styles.alignCenter}`} ref={provided.innerRef} {...provided.droppableProps}>
+                                    (provided) => <div className={`${styles.docContainer} ${styles.flexbox} ${styles.alignCenter}`} ref={provided.innerRef} {...provided.droppableProps}>
                                         {documents.map((document: IDocument, index: number) =>
                                             <Document name={document.name} id={document.id} key={document.id} index={index} />
                                         )}
@@ -116,22 +118,22 @@ const PDFMerge: React.FC<IPDFMergeProps> = (props: IPDFMergeProps) => {
                                 }
                             </Droppable>
                         </DragDropContext>
-                        <div className={`${styles.flex} ${styles.pdfMergeInfo}`}>
+                        <div className={`${styles.flexbox} ${styles.pdfMergeInfo}`}>
                             <p>{strings.DragDropInfo}</p>
                             <p><strong>{strings.Note}</strong>{strings.PasswordProtectionInfo}</p>
-                            <div className={`${styles.inputWrapper} ${styles.flex} ${styles.alignCenter}`}>
+                            <div className={`${styles.inputWrapper} ${styles.flexbox} ${styles.alignCenter}`}>
                                 <span>{strings.NewFileName}</span>
-                                <div className={`${styles.textboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
+                                <div className={`${styles.textboxWrapper} ${styles.flexbox} ${styles.alignCenter}`}>
                                     <input className={styles.textbox} type="text" value={filename} onChange={handleFileNameChange} />
-                                    <span className={`${styles.pdfText} ${styles.flex} ${styles.alignCenter}`}>.pdf</span>
+                                    <span className={`${styles.pdfText} ${styles.flexbox} ${styles.alignCenter}`}>.pdf</span>
                                 </div>
                             </div>
                             <div>
-                                <div className={`${styles.checkboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
+                                <div className={`${styles.checkboxWrapper} ${styles.flexbox} ${styles.alignCenter}`}>
                                     <input className={styles.checkbox} type='checkbox' id='Delete' name='Delete' defaultChecked={isDeleteSelected} onChange={handleCheck} />
                                     <label htmlFor='Delete'>{strings.DeleteInfo}</label>
                                 </div>
-                                <div className={`${styles.checkboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
+                                <div className={`${styles.checkboxWrapper} ${styles.flexbox} ${styles.alignCenter}`}>
                                     <input className={styles.checkbox} type='checkbox' id='Preview' name='Preview' defaultChecked={isPreviewSelected} onChange={handleCheck} />
                                     <label htmlFor='Preview'>{strings.PreviewInfo}</label>
                                 </div>

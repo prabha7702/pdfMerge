@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
     <CustomAction
-        Title="CmdDialog"
-        RegistrationId="100"
+        Title="PDFMerge"
+        RegistrationId="101"
         RegistrationType="List"
         Location="ClientSideExtension.ListViewCommandSet.CommandBar"
         ClientSideComponentId="2c8b613c-d4db-4bf7-83d5-5c817d0fac4d"

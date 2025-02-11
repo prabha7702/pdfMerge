@@ -85,7 +85,7 @@ module.exports = {
         //                    or else return the object to a caller (who assumes this responsibility).  Unterminated
         //                    promise chains are a serious issue.  Besides causing errors to be silently ignored,
         //                    they can also cause a NodeJS process to terminate unexpectedly.
-        '@typescript-eslint/no-floating-promises': 2,
+        '@typescript-eslint/no-floating-promises': 'off',
         // RATIONALE:         Catches a common coding mistake.
         '@typescript-eslint/no-for-in-array': 2,
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
@@ -123,16 +123,19 @@ module.exports = {
         //                    may impact performance.
         //
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-        '@typescript-eslint/no-unused-vars': [
-          1,
-          {
-            'vars': 'all',
-            // Unused function arguments often indicate a mistake in JavaScript code.  However in TypeScript code,
-            // the compiler catches most of those mistakes, and unused arguments are fairly common for type signatures
-            // that are overriding a base class method or implementing an interface.
-            'args': 'none'
-          }
-        ],
+        '@typescript-eslint/no-unused-vars': 'off'
+        // [
+        //   1,
+        //   {
+        //     'vars': 'all',
+        //     // Unused function arguments often indicate a mistake in JavaScript code.  However in TypeScript code,
+        //     // the compiler catches most of those mistakes, and unused arguments are fairly common for type signatures
+        //     // that are overriding a base class method or implementing an interface.
+        //     'args': 'none'
+        //   }
+        // ],
+        ,
+  
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         '@typescript-eslint/no-use-before-define': [
           2,

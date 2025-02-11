@@ -8,7 +8,7 @@ export interface IDocumentProps {
     index: number
 }
 
-const Document = (props: IDocumentProps) => {
+const Document = (props: IDocumentProps):React.ReactElement => {
 
     return (
         <Draggable draggableId={props.id.toString()} index={props.index}>

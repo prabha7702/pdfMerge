@@ -15,6 +15,7 @@ export default class PDFMergeCommandSet extends BaseListViewCommandSet<IPDFMerge
   private _docConfigElement: HTMLDivElement = null;
 
   public async onInit(): Promise<void> {
+    // console.log("PDF Merge extenion initialized")
     try {
       const command: Command = this.tryGetCommand("PDF_MERGE");
       command.visible = false;
@@ -49,13 +50,13 @@ export default class PDFMergeCommandSet extends BaseListViewCommandSet<IPDFMerge
   ): void => {
     try {
       const command: Command = this.tryGetCommand("PDF_MERGE");
-      const folders = this.context.listView.selectedRows.filter(
-        (row) => row.getValueByName("ContentType") === "Folder"
+      const files = this.context.listView.selectedRows.filter(
+        (row) => row.getValueByName("ContentType") === "SBS_file"
       );
       if (command) {
         command.visible =
           this.context.listView.selectedRows?.length > 1 &&
-          folders.length === 0;
+          this.context.listView.selectedRows?.length === files.length;
       }
       this.raiseOnChange();
     } catch (err) {
