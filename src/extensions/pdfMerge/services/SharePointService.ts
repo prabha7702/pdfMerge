@@ -43,7 +43,10 @@ export class SharepointService {
     return response.arrayBuffer();
   }
 
-  public async checkFileExist(folderPath:string,filename: string): Promise<boolean> {
+  public async checkFileExist(
+    folderPath: string,
+    filename: string
+  ): Promise<boolean> {
     const response: SPHttpClientResponse = await this._spHttpClient.get(
       this._context.web.absoluteUrl.concat(
         `/_api/web/getfolderbyserverrelativepath(decodedUrl='${folderPath}')/files('${filename}')?$select=Exists`
@@ -83,18 +86,18 @@ export class SharepointService {
   ): Promise<JSON> {
     const response: SPHttpClientResponse = await this._spHttpClient.post(
       this._context.web.absoluteUrl.concat(
-        `/_api/web/getfolderbyserverrelativeurl('${folderPath}')/files/add(url='${filename}.pdf')`
+        `/_api/web/getfolderbyserverrelativeurl('${folderPath}')/files/add(url='${filename}.pdf',overwrite=true)`
       ),
       SPHttpClient.configurations.v1,
       {
         headers: {
-          "Accept": "application/json;odata=verbose",
-          "Content-Type": "application/pdf",
+          Accept: "application/json;odata.metadata=minimal",
+          "Content-Type": "application/octet-stream",
         },
         body: fileContent,
       }
     );
-    return response.json();
+    return response.json().then((data) => data.ServerRelativeUrl);
   }
 
   public async deleteFile(fileref: string, retries: number = 0): Promise<JSON> {

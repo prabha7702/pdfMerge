@@ -39,7 +39,7 @@ const PDFMerge: React.FC<IPDFMergeProps> = (props: IPDFMergeProps) => {
     }
 
     const handleDrag = (result: DropResult): void => {
-        pdfService.getAccessToken();
+        // pdfService.getAccessToken();
         const docs: IDocument[] = documents;
         const doc: IDocument = docs[result.source.index];
         if (result.destination && result.source.index !== result.destination.index) {
@@ -75,7 +75,8 @@ const PDFMerge: React.FC<IPDFMergeProps> = (props: IPDFMergeProps) => {
                     setMessage(strings.MergeInfo);
                 }
                 if (isPreviewSelected) {
-                    window.open(`${props.context.pageContext.site.absoluteUrl.split('/sites')[0]}/${props.context.pageContext.list.serverRelativeUrl}/${filename}.pdf`, '_blank');
+                    // window.open(`${props.context.pageContext.site.absoluteUrl.split('/sites')[0]}/${props.context.pageContext.list.serverRelativeUrl}/${filename}.pdf`, '_blank');
+                    window.open(`${props.context.pageContext.site.absoluteUrl.split('/sites')[0]}/${mergeResponse}`, '_blank');
                 }
             }
         }
@@ -99,44 +100,44 @@ const PDFMerge: React.FC<IPDFMergeProps> = (props: IPDFMergeProps) => {
     return (
         <>
             <Panel isOpen={isPanelOpen} type={PanelType.medium} onDismiss={props.closePanel} headerText={strings.PanelHeader} onRenderFooterContent={() => renderFooter()} isFooterAtBottom={true}>
-                {isLoading?<div className={`${styles.flex} ${styles.alignCenter} ${styles.justifyCenter} ${styles.spinnerContainer}`}>
+                {isLoading ? <div className={`${styles.flex} ${styles.alignCenter} ${styles.justifyCenter} ${styles.spinnerContainer}`}>
                     <Spinner label={strings.LoadingInfo} ariaLive="assertive" labelPosition="bottom" styles={{ label: { marginLeft: 5, color: theme.palette.themePrimary }, circle: { borderTopColor: theme.palette.themePrimary, borderBottomColor: theme.palette.themeLight, borderLeftColor: theme.palette.themeLight, borderRightColor: theme.palette.themeLight } }} />
-                </div>:
-                <div className={`${styles.flex} ${styles.panel}`}>
-                    <DragDropContext onDragEnd={handleDrag}>
-                        <Droppable droppableId='Documents'>
-                            {
-                                (provided) => <div className={`${styles.docContainer} ${styles.flex} ${styles.alignCenter}`} ref={provided.innerRef} {...provided.droppableProps}>
-                                    {documents.map((document: IDocument, index: number) =>
-                                        <Document name={document.name} id={document.id} key={document.id} index={index} />
-                                    )}
-                                    {provided.placeholder}
+                </div> :
+                    <div className={`${styles.flex} ${styles.panel}`}>
+                        <DragDropContext onDragEnd={handleDrag}>
+                            <Droppable droppableId='Documents'>
+                                {
+                                    (provided) => <div className={`${styles.docContainer} ${styles.flex} ${styles.alignCenter}`} ref={provided.innerRef} {...provided.droppableProps}>
+                                        {documents.map((document: IDocument, index: number) =>
+                                            <Document name={document.name} id={document.id} key={document.id} index={index} />
+                                        )}
+                                        {provided.placeholder}
+                                    </div>
+                                }
+                            </Droppable>
+                        </DragDropContext>
+                        <div className={`${styles.flex} ${styles.pdfMergeInfo}`}>
+                            <p>{strings.DragDropInfo}</p>
+                            <p><strong>{strings.Note}</strong>{strings.PasswordProtectionInfo}</p>
+                            <div className={`${styles.inputWrapper} ${styles.flex} ${styles.alignCenter}`}>
+                                <span>{strings.NewFileName}</span>
+                                <div className={`${styles.textboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
+                                    <input className={styles.textbox} type="text" value={filename} onChange={handleFileNameChange} />
+                                    <span className={`${styles.pdfText} ${styles.flex} ${styles.alignCenter}`}>.pdf</span>
                                 </div>
-                            }
-                        </Droppable>
-                    </DragDropContext>
-                    <div className={`${styles.flex} ${styles.pdfMergeInfo}`}>
-                        <p>{strings.DragDropInfo}</p>
-                        <p><strong>{strings.Note}</strong>{strings.PasswordProtectionInfo}</p>
-                        <div className={`${styles.inputWrapper} ${styles.flex} ${styles.alignCenter}`}>
-                            <span>{strings.NewFileName}</span>
-                            <div className={`${styles.textboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
-                                <input className={styles.textbox} type="text" value={filename} onChange={handleFileNameChange} />
-                                <span className={`${styles.pdfText} ${styles.flex} ${styles.alignCenter}`}>.pdf</span>
+                            </div>
+                            <div>
+                                <div className={`${styles.checkboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
+                                    <input className={styles.checkbox} type='checkbox' id='Delete' name='Delete' defaultChecked={isDeleteSelected} onChange={handleCheck} />
+                                    <label htmlFor='Delete'>{strings.DeleteInfo}</label>
+                                </div>
+                                <div className={`${styles.checkboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
+                                    <input className={styles.checkbox} type='checkbox' id='Preview' name='Preview' defaultChecked={isPreviewSelected} onChange={handleCheck} />
+                                    <label htmlFor='Preview'>{strings.PreviewInfo}</label>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <div className={`${styles.checkboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
-                                <input className={styles.checkbox} type='checkbox' id='Delete' name='Delete' defaultChecked={isDeleteSelected} onChange={handleCheck} />
-                                <label htmlFor='Delete'>{strings.DeleteInfo}</label>
-                            </div>
-                            <div className={`${styles.checkboxWrapper} ${styles.flex} ${styles.alignCenter}`}>
-                                <input className={styles.checkbox} type='checkbox' id='Preview' name='Preview' defaultChecked={isPreviewSelected} onChange={handleCheck} />
-                                <label htmlFor='Preview'>{strings.PreviewInfo}</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>}
+                    </div>}
             </Panel>
             <Dialog hidden={isPanelOpen} dialogContentProps={{ type: DialogType.close, subText: message }} modalProps={{ isBlocking: true, isDarkOverlay: false }} onDismiss={props.closePanel} />
         </>
